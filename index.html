@@ -261,12 +261,11 @@
             margin: 0 auto;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
     <script type="text/javascript">
-        var cwidth = 800,
-            cheight = 800;
+        var cwidth = 810,
+            cheight = 810;
         var c;
-        var h = 10,
-            w = 10;
         var solved = [
             [1, 2, 3, 4, 5],
             [6, 7, 8, 9, 10, 11, 12],
@@ -309,21 +308,121 @@
 
         function applyBackgroundColor() {
             document.body.style.background = backgroundColor;
+            app.renderer.backgroundColor = PIXI.utils.string2hex(backgroundColor);
             // Also update triangle background color in draw()
         }
 
+        let app, stage, triangleContainer;
+
         function init() {
-            document.bgColor = "#fff";
-            applyBackgroundColor();
-            c = $('c').getContext('2d');
-            $('c').height = cheight;
-            $('c').width = cwidth;
-            $('cube').height = cheight;
-            $('cube').width = cwidth;
+            app = new PIXI.Application({
+                width: cwidth,
+                height: cheight,
+                backgroundColor: backgroundColor,
+                antialias: true,
+                resolution: 1.5,
+                autoDensity: true,
+                view: $('c')
+            });
+
+            stage = app.stage;
+            triangleContainer = new PIXI.Container();
+            stage.addChild(triangleContainer);
+
             $('c').addEventListener("mousemove", mouseMoved, false);
+
             resetBoard();
             solveState = 0;
             draw();
+        }
+
+        function draw() {
+            triangleContainer.removeChildren(); // clear old triangles
+
+            for (let row = 0; row < 4; row++) {
+                for (let col = lowest[row]; col <= highest[row]; col++) {
+                    let colHalf = Math.floor(col / 2);
+                    let value = board[row][col];
+                    let color = value > 0 ? mycolors[value] : backgroundColor;
+                    let text = value > 0 ? "" + value : "";
+                    let outlineColor = triangleBorderEnabled ? 0x000000 : PIXI.utils.string2hex(color);
+                    let textColor = 0x000000;
+
+                    let v0, v1, v2;
+                    if (col % 2 == 0) {
+                        v0 = vertex(row, colHalf);
+                        v1 = vertex(row + 1, colHalf);
+                        v2 = vertex(row + 1, colHalf + 1);
+                    } else {
+                        v0 = vertex(row, colHalf);
+                        v1 = vertex(row, colHalf + 1);
+                        v2 = vertex(row + 1, colHalf + 1);
+                    }
+
+                    drawTriangle(color, outlineColor, text, v0, v1, v2, textColor);
+                }
+            }
+        }
+
+        function drawTriangle(colorStr, outlineHex, text, v0, v1, v2, textColorHex) {
+            const triangle = new PIXI.Graphics();
+
+            const fillColor = PIXI.utils.string2hex(colorStr);
+            triangle.beginFill(fillColor);
+            triangle.lineStyle({
+                width: 1.2,
+                color: outlineHex,
+                alignment: 0.5, // center of stroke
+                join: 'round',
+                cap: 'round',
+                miterLimit: 2
+            });
+
+
+            triangle.moveTo(v0[1], v0[0]);
+            triangle.lineTo(v1[1], v1[0]);
+            triangle.lineTo(v2[1], v2[0]);
+            triangle.closePath();
+            triangle.endFill();
+
+            triangleContainer.addChild(triangle);
+
+            if (text) {
+                const textStyle = new PIXI.TextStyle({
+                    fill: PIXI.utils.rgb2hex([0, 0, 0]),
+                    fontSize: Math.round(triangleFontScale * squareSize() / 3.5),
+                    fontWeight: 'bold',
+                    align: 'center'
+                });
+
+                const label = new PIXI.Text(text, textStyle);
+                const cx = (v0[1] + v1[1] + v2[1]) / 3;
+                const cy = (v0[0] + v1[0] + v2[0]) / 3;
+
+                label.anchor.set(0.5);
+                label.x = cx;
+                label.y = cy;
+
+                triangleContainer.addChild(label);
+            }
+        }
+
+        function drawPiece(colorStr, x, y, size) {
+            const g = new PIXI.Graphics();
+            const fillColor = PIXI.utils.string2hex(colorStr);
+            const strokeColor = PIXI.utils.string2hex(colors[1]);
+
+            g.beginFill(fillColor);
+            g.lineStyle(1, strokeColor);
+            g.drawCircle(x + size / 2, y + size / 2, size * 0.35);
+            g.endFill();
+
+            triangleContainer.addChild(g);
+        }
+
+        // Convenience
+        function $(str) {
+            return document.getElementById(str);
         }
 
         function resetBoard() {
@@ -642,43 +741,6 @@
             URL.revokeObjectURL(url);
         }
 
-        function draw() {
-            for (var row = 0; row < 4; row++) {
-                for (var col = lowest[row]; col <= highest[row]; col++) {
-                    var colHalf = Math.floor(col / 2);
-                    // Use backgroundColor for empty triangles
-                    var color = board[row][col] > 0 ? mycolors[board[row][col]] : backgroundColor;
-                    var text = board[row][col] > 0 ? "" + board[row][col] : "";
-                    var outlineColor = triangleBorderEnabled ? "#000" : color;
-                    var textColor = "#000"; // Always use black for numbers
-
-                    if (col % 2 == 0) {
-                        drawTriangle(color, outlineColor, text, vertex(row, colHalf), vertex(row + 1, colHalf), vertex(row + 1, colHalf + 1), textColor);
-                    } else {
-                        drawTriangle(color, outlineColor, text, vertex(row, colHalf), vertex(row, colHalf + 1), vertex(row + 1, colHalf + 1), textColor);
-                    }
-                }
-            }
-        }
-        function drawTriangle(color, outline, text, v0, v1, v2, textColor) {
-            c.strokeStyle = outline;
-            c.lineWidth = 1;
-            c.fillStyle = color;
-            c.beginPath();
-            c.moveTo(v0[1], v0[0]);
-            c.lineTo(v1[1], v1[0]);
-            c.lineTo(v2[1], v2[0]);
-            c.closePath();
-            if (color != null) c.fill();
-            if (outline != null) c.stroke();
-            if (text) {
-                c.fillStyle = textColor;
-                c.font = "bold " + Math.round(triangleFontScale * squareSize() / 3.5) + "px arial";
-                c.textAlign = "center";
-                c.fillText(text, (v0[1] + v1[1] + v2[1]) / 3, (v0[0] + v1[0] + v2[0]) / 3 + squareSize() / 12);
-            }
-        }
-
         function vertex(y, x) {
             var vert = Math.sqrt(3) / 2;
             var outY = vert * squareSize() * y;
@@ -688,22 +750,6 @@
 
         function squareSize() {
             return (cwidth - 6) / 4;
-        }
-
-
-        function drawPiece(color, x, y, size) {
-            c.strokeStyle = colors[1];
-            c.fillStyle = color;
-            var r = size * 0.35;
-            c.beginPath();
-            c.arc(x + size / 2, y + size / 2, r, 0, 2 * Math.PI);
-            c.closePath();
-            c.stroke();
-            c.fill();
-        }
-
-        function $(str) {
-            return document.getElementById(str);
         }
 
         function fringescheme() {
@@ -766,6 +812,38 @@
                 updateSolvesTable();
             }
         }
+        function onCanvasSizeChange(slider) {
+            resizeCanvas(parseInt(slider.value));
+        }
+        function resizeCanvas(newSize) {
+            canvasSize = newSize;
+            cwidth = newSize;
+            cheight = newSize;
+
+            // Remove existing canvas and PIXI app
+            if (app) {
+                app.destroy(true, { children: true, texture: true, baseTexture: true });
+            }
+
+            // Remove old canvas element from DOM
+            const oldCanvas = $('c');
+            if (oldCanvas && oldCanvas.parentNode) {
+                oldCanvas.parentNode.removeChild(oldCanvas);
+            }
+
+            // Create new canvas and append
+            const newCanvas = document.createElement('canvas');
+            newCanvas.id = 'c';
+            newCanvas.width = canvasSize;
+            newCanvas.height = canvasSize;
+            $('cube').appendChild(newCanvas);
+
+            // Re-initialize Pixi app and draw
+            init();
+        }
+
+
+
     </script>
 </head>
 
@@ -789,6 +867,11 @@
                     <label for="fontScaleSlider">Triangle font size</label>
                     <input type="range" id="fontScaleSlider" min="0.5" max="1.5" step="0.05" value="1.0"
                         onchange="onFontScaleChange(this)">
+                </div>
+                <div class="settings-row">
+                    <label for="canvasSizeSlider">Puzzle size<br>(!resets the solve)</label>
+                    <input type="range" id="canvasSizeSlider" min="300" max="1200" step="10" value="800"
+                        onchange="onCanvasSizeChange(this)">
                 </div>
                 <div class="settings-row">
                     <label for="bgColorPicker">Background</label>
