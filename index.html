@@ -174,6 +174,58 @@
         }
 
         // Handle a hover on the board. Changes that piece and updates the board.
+        var lastHovered = null;
+
+        // Returns Manhattan distance for hex grid (approximate for this puzzle)
+        function hexDist(a, b) {
+            return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+        }
+
+        // Find which blank is closer to the target
+        function closestBlank(target) {
+            let d0 = hexDist(blanks[0], target);
+            let d1 = hexDist(blanks[1], target);
+            return d0 <= d1 ? 0 : 1;
+        }
+
+        // Try to move the blank towards the target, one step at a time
+        function moveBlankTo(targetY, targetX) {
+            let pathMadeMove = false;
+            // Repeat until the tile at (targetY, targetX) is adjacent to a blank
+            while (true) {
+                let validMoves = getValidMoves();
+                let found = false;
+                for (let i = 0; i < validMoves.length; i++) {
+                    if (validMoves[i][0] === targetY && validMoves[i][1] === targetX) {
+                        doMove(targetY, targetX, false);
+                        pathMadeMove = true;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break; // done
+
+                // If not adjacent, move the blank closer
+                // Pick the valid move that is closest to the target
+                let bestMove = null;
+                let bestDist = 999;
+                for (let i = 0; i < validMoves.length; i++) {
+                    let dist = hexDist(validMoves[i], [targetY, targetX]);
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        bestMove = validMoves[i];
+                    }
+                }
+                if (bestMove) {
+                    doMove(bestMove[0], bestMove[1], false);
+                    pathMadeMove = true;
+                } else {
+                    break; // no path
+                }
+            }
+            return pathMadeMove;
+        }
+
         function mouseMoved(event) {
             if (!event) event = window.event;
             if (event.preventDefault) {
@@ -184,10 +236,9 @@
             var xPixel = event.clientX - rect.left;
             var yPixel = event.clientY - rect.top;
 
-            // determine which piece is clicked
+            // determine which piece is hovered
             var vert = Math.sqrt(3) / 2;
             var pieceRow = Math.floor(yPixel / squareSize() / vert);
-            var vertex0x = squareSize();
             var pieceColumnA = Math.floor((xPixel - yPixel / Math.sqrt(3)) / squareSize());
             var pieceColumnB = Math.floor((xPixel + yPixel / Math.sqrt(3)) / squareSize());
             var pieceColumn = -1;
@@ -198,8 +249,17 @@
                 pieceColumn = pieceColumnB * 2 - 2;
             }
 
-            doMove(pieceRow, pieceColumn, false);
-            draw();
+            if (
+                isValid(pieceRow, pieceColumn) &&
+                board[pieceRow][pieceColumn] > 0 &&
+                (!lastHovered || lastHovered[0] !== pieceRow || lastHovered[1] !== pieceColumn)
+            ) {
+                // Move blank(s) to the hovered tile, step by step
+                if (moveBlankTo(pieceRow, pieceColumn)) {
+                    draw();
+                }
+                lastHovered = [pieceRow, pieceColumn];
+            }
         }
 
         // Do a move from [y,x] if it's valid to do so
