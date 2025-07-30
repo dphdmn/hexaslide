@@ -1,87 +1,328 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <head>
+        <link rel="icon" type="image/png"
+            href="data:image/png;base64,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" />
+    </head>
+    <meta charset="UTF-8">
+    <title>HexaSlide</title>
     <style>
         body {
-            font-family: Sans-Serif;
-            background: #383434;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: #23252a;
+            margin: 0;
+            padding: 0;
         }
-        .center {
+
+        .side-panel {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 30vw;
+            min-width: 400px;
+            max-width: 400px;
+            height: 100vh;
+            background: rgba(24, 26, 32, 0.98);
+            box-shadow: 2px 0 24px #000b;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 0;
+            overflow-y: auto;
+            z-index: 2;
+        }
+
+        .title-section {
+            padding-left: 32px;
+            margin-bottom: 28px;
+        }
+
+        .main-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #73cfdc;
+            margin-bottom: 0.18em;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 12px #000b;
+        }
+
+        .author {
+            font-size: 1.18em;
+            font-weight: bold;
+            color: #fbf353;
+        }
+
+        .settings-section {
+            background: #23272e;
+            border-radius: 14px;
+            margin: 0 32px 28px;
+            padding: 22px 0 16px;
+            box-shadow: 0 2px 12px #0008;
+        }
+
+        .settings-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 18px 28px 0 28px;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .settings-row label {
+            color: #eaeaea;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .settings-row input[type="range"] {
+            width: 90px;
+        }
+
+        .settings-row input[type="color"] {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            padding: 0;
+            margin-left: 6px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px #0004;
+        }
+
+        .button-bar {
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .button-bar button {
+            background: linear-gradient(90deg, #23272e 0%, #383434 100%);
+            color: #73cfdc;
+            border: 2px solid #73cfdc;
+            border-radius: 10px;
+            padding: 13px 28px;
+            font-size: 1.15em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px #0005;
+        }
+
+        .button-bar button:hover,
+        .button-bar button:focus {
+            background: #73cfdc;
+            color: #23272e;
+            border-color: #fbf353;
+            outline: none;
+            box-shadow: 0 4px 16px #00ffa855;
+        }
+
+        .solves-section {
+            background: #23272e;
+            border-radius: 14px;
+            margin: 0 32px;
+            padding: 20px 18px;
+            box-shadow: 0 2px 12px #0008;
+        }
+
+        .solves-section h3 {
+            color: #73cfdc;
+            margin: 0 0 16px;
             text-align: center;
+            font-size: 1.18em;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
-        div {   
-            color: white;
-            font-size: 24px;
+
+        .solves-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
         }
-        #solveTime {
+
+        .solves-table th,
+        .solves-table td {
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 1.08em;
+            border-bottom: 1px solid #444;
+        }
+
+        .solves-table th {
+            background: #181a1f;
+            color: #73cfdc;
+            font-weight: bold;
+        }
+
+        .solves-table td {
+            color: #eaeaea;
+        }
+
+        .solves-table td.time {
             color: #00ffa8;
         }
-        #stats {
-            position: absolute;
-            text-align: left;
-            width:250px;
-            font-size: 15px;
-            color: #73cfdc;
+
+        .solves-table td.moves {
+            color: #fbf353;
+        }
+
+        .solves-table td.tps {
+            color: #7bfa5b;
+        }
+
+        .export-btn {
+            margin-top: 16px;
+            background: #73cfdc;
+            color: #23272e;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 1.08em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 2px 8px #0005;
+        }
+
+        .export-btn:hover {
+            background: #00ffa8;
+            color: #181a1f;
+        }
+
+        .puzzle-center-abs {
+            position: fixed;
+            left: 50vw;
+            top: 50vh;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 800px;
+            pointer-events: auto;
+        }
+
+        .timer-overlay {
+            position: fixed;
+            left: 50vw;
+            top: calc(50vh + 350px);
+            transform: translate(-50%, 0);
+            z-index: 20;
+            pointer-events: none;
+            width: 200px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .timer-display {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #00ffa8;
+            background: #181a1f;
+            border-radius: 12px;
+            padding: 13px 0 13px 0;
+            box-shadow: 0 2px 12px #0008;
+            letter-spacing: 1px;
+            text-align: center;
+            min-width: 160px;
+            width: 160px;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        .timer-sub {
+            font-size: 1.08em;
+            color: #fbf353;
+            font-weight: normal;
+            margin-top: 2px;
+            display: block;
+        }
+
+        .timer-tps {
+            color: #7bfa5b;
+            font-size: 1.08em;
+            font-weight: normal;
+            margin-top: 1px;
+            display: block;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
         }
     </style>
     <script type="text/javascript">
-        <!--
         var cwidth = 800,
-            cheight = 800; // size of canvas
-        var c; // canvas's graphics object for drawing
+            cheight = 800;
+        var c;
         var h = 10,
-            w = 10; // height and width of board
-
+            w = 10;
         var solved = [
             [1, 2, 3, 4, 5],
             [6, 7, 8, 9, 10, 11, 12],
             [-1, 13, 14, 15, 16, 17, 18, 19],
             [-1, -1, -1, 20, 21, 22, 0, 0]
         ];
-        var mc = ["#f46261", "#fbf353", "#7bfa5b", "#7bd3ec", "#87afff", "#d48bfb"]
-        var mycolors = [0, mc[0], mc[0], mc[0], mc[0], mc[0], 
-                        mc[1], mc[1], mc[1], mc[1], mc[1], mc[1], mc[1], 
-                        mc[5], mc[2], mc[2], mc[3], mc[3], mc[4], mc[4], 
-                        mc[2], mc[2], mc[3]];
+        var mc = ["#f46261", "#fbf353", "#7bfa5b", "#7bd3ec", "#87afff", "#d48bfb"];
+        var mycolors = [0, mc[0], mc[0], mc[0], mc[0], mc[0],
+            mc[1], mc[1], mc[1], mc[1], mc[1], mc[1], mc[1],
+            mc[5], mc[2], mc[2], mc[3], mc[3], mc[4], mc[4],
+            mc[2], mc[2], mc[3]];
         var board = [];
-        var blanks = []; // upright, then upside-down
-
-        var lowest = [0, 0, 1, 3]; // lowest valid triangle "column" on each row
-        var highest = [4, 6, 7, 7]; // highest valid triangle "column" on each row
-
-        var solveState = 0; // 0 = nothing, 1 = inspection, 2 = solving
+        var blanks = [];
+        var lowest = [0, 0, 1, 3];
+        var highest = [4, 6, 7, 7];
+        var solveState = 0;
         var startTime = undefined;
         var moves = 0;
-
+        var solvesLog = [];
+        var skipCounter = 0; // Increments on each escape/reset
+        var solveStreak = 0; // Number of consecutive solves since last skip
+        var allSolves = []; // {time, skipGroup, moves}
+        // Track best averages across all skips
+        var bestAverages = {}; // { n: { time: bestAvgTime, moves: avgMoves, indices: [startIdx, ...] } }
         const intervalID = setInterval(myTimer, 10);
 
         function myTimer() {
-            if (solveState != 0 && !isNaN(startTime)) {
-                var mytime = ((Date.now() - startTime) / 1000)
-                $("solvingTime").innerHTML = mytime.toFixed(3) + "<br>" + moves + " moves<br>"+(moves/mytime).toFixed(3) + " tps";
+            if (solveState === 2 && !isNaN(startTime)) {
+                var mytime = ((Date.now() - startTime) / 1000);
+                $("solvingTime").innerHTML =
+                    `<span class="timer-display">${mytime.toFixed(3)}<span class="timer-sub">${moves} moves</span><span class="timer-tps">${(moves / mytime).toFixed(3)} tps</span></span>`;
             }
         }
 
-        window.onkeydown = function(event) {
-            doKey(event)
-        };
+        window.onkeydown = function (event) { doKey(event) };
 
-        // A function to run when the page is initialized.
-        // Set some listeners on the canvas, populate four-in-a-rows, and generate a board.
+        var triangleBorderEnabled = true;
+        var triangleFontScale = 1.0;
+        var backgroundColor = "#23252a";
+
+        function applyBackgroundColor() {
+            document.body.style.background = backgroundColor;
+            // Also update triangle background color in draw()
+        }
+
         function init() {
             document.bgColor = "#fff";
-
+            applyBackgroundColor();
             c = $('c').getContext('2d');
             $('c').height = cheight;
             $('c').width = cwidth;
             $('cube').height = cheight;
             $('cube').width = cwidth;
             $('c').addEventListener("mousemove", mouseMoved, false);
-
             resetBoard();
             solveState = 0;
-
             draw();
         }
 
@@ -93,45 +334,101 @@
             ];
         }
 
-        // Handle keyboard
-        function doKey(e) {
-            var keyCode = 0;
-            if (e.keyCode) {
-                keyCode = e.keyCode;
-            } else if (e.which) {
-                keyCode = e.which;
+        // --- Averages Calculation ---
+        function average(array) {
+            array = array.slice().sort((a, b) => a - b);
+            const m = array.length > 3 ? Math.ceil(array.length / 20) : 0;
+            let sum = 0;
+            for (let i = m; i < array.length - m; i++) {
+                if (array[i] === -1) return -1;
+                sum += array[i];
             }
-
-            if (keyCode == 32) { // prevent normal handling of space key
-                if (e.stopPropagation) {
-                    e.stopPropagation();
-                }
-                e.preventDefault();
-            }
-
-            // space to scramble
-            if (keyCode == 32 && solveState == 0) {
-                scramble();
-            }
-            // escape to reset
-            else if (keyCode == 27) {
-                if (solveState != 0) {
-                    solveState = 0;
-                    resetBoard();
-                    draw();
-                    $("solveTime").innerHTML = "";
-                }
-            }
+            return sum / (array.length - m * 2);
         }
+
+        function averageMoves(movesArr) {
+            if (!movesArr.length) return 0;
+            let sum = 0;
+            for (let i = 0; i < movesArr.length; i++) sum += movesArr[i];
+            return sum / movesArr.length;
+        }
+
+        function calculateAverages() {
+            // Only use solves since last skip (same skipCounter)
+            const validSolves = allSolves.filter(s => s.skipGroup === skipCounter && s.time !== -1);
+            const times = validSolves.map(s => s.time * 1000); // ms
+            const moves = validSolves.map(s => s.moves);
+            const avgs = [];
+            for (const n of [1, 3, 5, 12, 50, 100]) {
+                if (times.length < n) continue;
+                // Find best average (time and moves) across all solves (all skips)
+                let best = Infinity, bestMoves = 0, bestIdx = -1;
+                for (let i = 0; i <= allSolves.length - n; i++) {
+                    // Only consider n consecutive valid solves (not skips/markers)
+                    let chunk = allSolves.slice(i, i + n);
+                    if (chunk.some(s => s.time === -1)) continue;
+                    let chunkTimes = chunk.map(s => s.time * 1000);
+                    let avgTime = average(chunkTimes);
+                    if (avgTime !== -1 && avgTime < best) {
+                        best = avgTime;
+                        bestIdx = i;
+                        bestMoves = averageMoves(chunk.map(s => s.moves));
+                    }
+                }
+                // Store best averages globally
+                if (!bestAverages[n] || best < bestAverages[n].time) {
+                    bestAverages[n] = { time: best, moves: bestMoves, indices: [bestIdx] };
+                }
+                // Current average (time only, for current skip group)
+                const current = average(times.slice(-n));
+                avgs.push({ n, current, best: bestAverages[n] ? bestAverages[n].time : null, bestMoves: bestAverages[n] ? bestAverages[n].moves : null });
+            }
+            return avgs;
+        }
+
+        function updateAveragesTable() {
+            const avgs = calculateAverages();
+            let html = '<table class="solves-table"><thead><tr><th>Avg</th><th>Current</th><th>Best (moves)</th></tr></thead><tbody>';
+
+            if (avgs.length > 0) {
+                for (const a of avgs) {
+                    html += `<tr>
+                <td>${a.n === 1 ? "Single" : ("Ao" + a.n)}</td>
+                <td class="time">${a.current === -1 || a.current == null ? '-' : (a.current / 1000).toFixed(3)}</td>
+                <td class="time">${a.best == null || a.best === Infinity ? '-' : (a.best / 1000).toFixed(3)
+                        }${a.bestMoves && a.best != null && a.best !== Infinity ? ` (${a.bestMoves.toFixed(2)})` : ''
+                        }</td>
+            </tr>`;
+                }
+            } else {
+                // Check if bestAverages has any entries
+                const bestKeys = Object.keys(bestAverages);
+                if (bestKeys.length > 0) {
+                    for (const n of bestKeys) {
+                        const b = bestAverages[n];
+                        html += `<tr>
+                    <td>Ao${n}</td>
+                    <td class="time">-</td>
+                    <td class="time">${(b.time / 1000).toFixed(3)} (${b.moves.toFixed(2)})</td>
+                </tr>`;
+                    }
+                } else {
+                    html += `<tr><td colspan="3" class="time">No average data yet</td></tr>`;
+                }
+            }
+
+            html += '</tbody></table>';
+            $("averagesLog").innerHTML = html;
+        }
+
+        // --- End averages ---
 
         function isSolved() {
-            return JSON.stringify(solved) == JSON.stringify(board); // lol
+            return JSON.stringify(solved) == JSON.stringify(board);
         }
 
-        // I have no idea how to do random state for this yet
         function scramble() {
             resetBoard();
-            $("solvingTime").innerHTML = "";
             startTime = undefined;
             while (isSolved()) {
                 for (var i = 0; i < 123456; i++) {
@@ -143,17 +440,15 @@
             solveState = 1;
             moves = 0;
             draw();
+            // No skip on scramble, keep current skipCounter
         }
 
-        // Is the array position [y, x] valid?
         function isValid(y, x) {
             if (y < 0 || y > 3) return false;
             if (x < lowest[y] || x > highest[y]) return false;
             return true;
         }
 
-        // Return a list of valid [y, x] tiles to move next
-        // It's the non-blank tiles next to a blank
         function getValidMoves() {
             var adjacentToBlank = [];
             var uprightBlank = blanks[0];
@@ -173,26 +468,23 @@
             return validMoves;
         }
 
-        // Handle a hover on the board. Changes that piece and updates the board.
         var lastHovered = null;
+        var lastMoveTick = 0;
 
-        // Returns Manhattan distance for hex grid (approximate for this puzzle)
         function hexDist(a, b) {
             return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
         }
 
-        // Find which blank is closer to the target
         function closestBlank(target) {
             let d0 = hexDist(blanks[0], target);
             let d1 = hexDist(blanks[1], target);
             return d0 <= d1 ? 0 : 1;
         }
 
-        // Try to move the blank towards the target, one step at a time
         function moveBlankTo(targetY, targetX) {
             let pathMadeMove = false;
-            // Repeat until the tile at (targetY, targetX) is adjacent to a blank
-            while (true) {
+            let safety = 32;
+            while (safety-- > 0) {
                 let validMoves = getValidMoves();
                 let found = false;
                 for (let i = 0; i < validMoves.length; i++) {
@@ -203,10 +495,7 @@
                         break;
                     }
                 }
-                if (found) break; // done
-
-                // If not adjacent, move the blank closer
-                // Pick the valid move that is closest to the target
+                if (found) break;
                 let bestMove = null;
                 let bestDist = 999;
                 for (let i = 0; i < validMoves.length; i++) {
@@ -220,7 +509,7 @@
                     doMove(bestMove[0], bestMove[1], false);
                     pathMadeMove = true;
                 } else {
-                    break; // no path
+                    break;
                 }
             }
             return pathMadeMove;
@@ -235,34 +524,30 @@
             var rect = $('c').getBoundingClientRect();
             var xPixel = event.clientX - rect.left;
             var yPixel = event.clientY - rect.top;
-
-            // determine which piece is hovered
             var vert = Math.sqrt(3) / 2;
             var pieceRow = Math.floor(yPixel / squareSize() / vert);
             var pieceColumnA = Math.floor((xPixel - yPixel / Math.sqrt(3)) / squareSize());
             var pieceColumnB = Math.floor((xPixel + yPixel / Math.sqrt(3)) / squareSize());
             var pieceColumn = -1;
             if (pieceRow + pieceColumnA == pieceColumnB) {
-                // upside-down triangle
                 pieceColumn = pieceColumnB * 2 - 1;
             } else {
                 pieceColumn = pieceColumnB * 2 - 2;
             }
-
+            let tick = pieceRow + 100 * pieceColumn;
             if (
                 isValid(pieceRow, pieceColumn) &&
                 board[pieceRow][pieceColumn] > 0 &&
-                (!lastHovered || lastHovered[0] !== pieceRow || lastHovered[1] !== pieceColumn)
+                lastMoveTick !== tick
             ) {
-                // Move blank(s) to the hovered tile, step by step
                 if (moveBlankTo(pieceRow, pieceColumn)) {
                     draw();
                 }
                 lastHovered = [pieceRow, pieceColumn];
+                lastMoveTick = tick;
             }
         }
 
-        // Do a move from [y,x] if it's valid to do so
         function doMove(y, x, scrambling) {
             if (!isValid(y, x)) return;
             if (board[y][x] <= 0) return;
@@ -274,15 +559,13 @@
                         solveState = 2;
                         $("solvingTime").innerHTML = "";
                         startTime = Date.now();
-                     }
+                    }
                     if (x % 2 == 1) {
-                        // upside down
                         board[blanks[1][0]][blanks[1][1]] = board[y][x];
                         board[y][x] = 0;
                         blanks[1] = [y, x];
                         break;
                     } else {
-                        // upright
                         board[blanks[0][0]][blanks[0][1]] = board[y][x];
                         board[y][x] = 0;
                         blanks[0] = [y, x];
@@ -290,57 +573,94 @@
                     }
                 }
             }
-
             if (scrambling) return;
-
             if (solveState == 2) {
-                
                 if (isSolved()) {
-                    $("solvingTime").innerHTML = "";
+                    var finaltime = ((Date.now() - startTime) / 1000);
+                    var finalmoves = moves;
+                    var finaltps = moves / finaltime;
+                    solvesLog.unshift({
+                        time: finaltime,
+                        moves: finalmoves,
+                        tps: finaltps
+                    });
+                    // Track for averages (skipGroup = skipCounter)
+                    allSolves.push({ time: finaltime, skipGroup: skipCounter, moves: finalmoves });
+                    $("solvingTime").innerHTML =
+                        `<span class="timer-display">${finaltime.toFixed(3)}<span class="timer-sub">${finalmoves} moves</span><span class="timer-tps">${finaltps.toFixed(3)} tps</span></span>`;
                     solveState = 0;
-                    var solveTime = (Date.now() - startTime);
-                    var finaltime = ((Date.now() - startTime) / 1000)
-                    var statsText = finaltime.toFixed(3) + ", " + moves + " moves, " + (moves/finaltime).toFixed(3) + " tps";
-                    $("solveTime").innerHTML = "Last solve: "+statsText;
-                    $("stats").innerHTML = statsText + "<br>" + $("stats").innerHTML;
+                    updateSolvesTable();
+                    updateAveragesTable();
                 }
             }
         }
 
-        // Draw the board, using different backgrounds for pieces depending on the type
-        // of piece (clue, normal piece, guess piece)
-        function draw() {
+        function updateSolvesTable() {
+            var table = '<table class="solves-table"><thead><tr><th>#</th><th>Time (s)</th><th>Moves</th><th>TPS</th></tr></thead><tbody>';
 
+            // Count total non-marker entries first
+            let total = solvesLog.filter(s => !s.marker).length;
+            let count = total;
+
+            for (let i = 0; i < solvesLog.length; i++) {
+                let s = solvesLog[i];
+                if (s.marker) {
+                    table += `<tr><td colspan="4" style="text-align: center;">---</td></tr>`;
+                } else {
+                    table += `<tr>
+                <td>${count}</td>
+                <td class="time">${s.time.toFixed(3)}</td>
+                <td class="moves">${s.moves}</td>
+                <td class="tps">${s.tps.toFixed(3)}</td>
+            </tr>`;
+                    count--;
+                }
+            }
+
+            table += '</tbody></table>';
+            //table += `<button class="export-btn" onclick="exportSolves()">Export CSV</button>`;
+
+            // Fix the selector to use getElementById or querySelector
+            document.getElementById("solvesLog").innerHTML = table;
+        }
+
+
+        function exportSolves() {
+            let csv = "Solve #,Time (s),Moves,TPS\n";
+            for (let i = 0; i < solvesLog.length; i++) {
+                let s = solvesLog[i];
+                csv += `${i + 1},${s.time.toFixed(3)},${s.moves},${s.tps.toFixed(3)}\n`;
+            }
+            let blob = new Blob([csv], { type: "text/csv" });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = "hexaslide_solves.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function draw() {
             for (var row = 0; row < 4; row++) {
                 for (var col = lowest[row]; col <= highest[row]; col++) {
                     var colHalf = Math.floor(col / 2);
-                    var color = board[row][col] > 0 ? mycolors[board[row][col]] : "#383434";
+                    // Use backgroundColor for empty triangles
+                    var color = board[row][col] > 0 ? mycolors[board[row][col]] : backgroundColor;
                     var text = board[row][col] > 0 ? "" + board[row][col] : "";
+                    var outlineColor = triangleBorderEnabled ? "#000" : color;
+                    var textColor = "#000"; // Always use black for numbers
+
                     if (col % 2 == 0) {
-                        // upright triangle
-                        drawTriangle(color, "#000", text, vertex(row, colHalf), vertex(row + 1, colHalf), vertex(row + 1, colHalf + 1));
+                        drawTriangle(color, outlineColor, text, vertex(row, colHalf), vertex(row + 1, colHalf), vertex(row + 1, colHalf + 1), textColor);
                     } else {
-                        // upside down triangle
-                        drawTriangle(color, "#000", text, vertex(row, colHalf), vertex(row, colHalf + 1), vertex(row + 1, colHalf + 1));
+                        drawTriangle(color, outlineColor, text, vertex(row, colHalf), vertex(row, colHalf + 1), vertex(row + 1, colHalf + 1), textColor);
                     }
                 }
             }
         }
-
-        // The (y,x) coordinates at the y'th row and x'th vertex
-        function vertex(y, x) {
-            var vert = Math.sqrt(3) / 2;
-            var outY = vert * squareSize() * y;
-            var outX = (x + 1 - y / 2) * squareSize();
-            return [outY, outX];
-        }
-
-        // The size of one of the squares in the puzzle
-        function squareSize() {
-            return (cwidth - 6) / 4;
-        }
-
-        function drawTriangle(color, outline, text, v0, v1, v2) {
+        function drawTriangle(color, outline, text, v0, v1, v2, textColor) {
             c.strokeStyle = outline;
             c.lineWidth = 1;
             c.fillStyle = color;
@@ -351,13 +671,26 @@
             c.closePath();
             if (color != null) c.fill();
             if (outline != null) c.stroke();
-            c.fillStyle = outline;
-            c.font = "bold " + Math.round(squareSize() / 3.5) + "px arial";
-            c.textAlign = "center";
-            c.fillText(text, (v0[1] + v1[1] + v2[1]) / 3, (v0[0] + v1[0] + v2[0]) / 3 + squareSize() / 15);
+            if (text) {
+                c.fillStyle = textColor;
+                c.font = "bold " + Math.round(triangleFontScale * squareSize() / 3.5) + "px arial";
+                c.textAlign = "center";
+                c.fillText(text, (v0[1] + v1[1] + v2[1]) / 3, (v0[0] + v1[0] + v2[0]) / 3 + squareSize() / 12);
+            }
         }
 
-        // Draw a piece of a given color, at position (x,y) with size size
+        function vertex(y, x) {
+            var vert = Math.sqrt(3) / 2;
+            var outY = vert * squareSize() * y;
+            var outX = (x + 1 - y / 2) * squareSize();
+            return [outY, outX];
+        }
+
+        function squareSize() {
+            return (cwidth - 6) / 4;
+        }
+
+
         function drawPiece(color, x, y, size) {
             c.strokeStyle = colors[1];
             c.fillStyle = color;
@@ -369,23 +702,112 @@
             c.fill();
         }
 
-        // Shorter name for a common JS function
         function $(str) {
             return document.getElementById(str);
         }
 
-        // 
-        -->
+        function fringescheme() {
+            mc = ["#f46261", "#fbf353", "#7bfa5b", "#7bd3ec", "#87afff", "#d48bfb"];
+            mycolors = [0, mc[0], mc[0], mc[0], mc[0], mc[0],
+                mc[1], mc[2], mc[2], mc[2], mc[2], mc[2], mc[2],
+                mc[1], mc[1], mc[3], mc[3], mc[4], mc[4], mc[4],
+                mc[1], mc[1], mc[3]];
+            draw();
+        }
+
+        function oldscheme() {
+            mc = ["#f46261", "#fbf353", "#7bfa5b", "#7bd3ec", "#87afff", "#d48bfb"];
+            mycolors = [0, mc[0], mc[0], mc[0], mc[0], mc[0],
+                mc[1], mc[1], mc[1], mc[1], mc[1], mc[1], mc[1],
+                mc[5], mc[2], mc[2], mc[3], mc[3], mc[4], mc[4],
+                mc[2], mc[2], mc[3]];
+            draw();
+        }
+
+        function onTriangleBorderToggle(checkbox) {
+            triangleBorderEnabled = checkbox.checked;
+            draw();
+        }
+
+        function onFontScaleChange(slider) {
+            triangleFontScale = parseFloat(slider.value);
+            draw();
+        }
+
+        function onBackgroundColorChange(input) {
+            backgroundColor = input.value;
+            applyBackgroundColor();
+            draw();
+        }
+
+        function doKey(e) {
+            var keyCode = e.keyCode || e.which || 0;
+            if (keyCode == 32) {
+                if (e.stopPropagation) e.stopPropagation();
+                e.preventDefault();
+            }
+            // space to scramble (even after a solve)
+            if (keyCode == 32 && (solveState == 0 || solveState == 2)) {
+                scramble();
+            } else if (keyCode == 27) {
+                if (solveState != 0) {
+                    solveState = 0;
+                    resetBoard();
+                    draw();
+                    $("solvingTime").innerHTML = "";
+                }
+                // Add skip marker if the last log entry is not already a marker
+                if (solvesLog.length === 0 || !solvesLog[0].marker) {
+                    solvesLog.unshift({ marker: true });
+                }
+                skipCounter++;
+                // Only reset current averages (not bestAverages)
+                updateAveragesTable();
+                updateSolvesTable();
+            }
+        }
     </script>
 </head>
 
 <body onload="init()" text="black" oncontextmenu="return false;">
-    <div class="center">
-        <div id="stats"></div>
+    <div class="side-panel">
+        <div class="title-section">
+            <div class="main-title">HexaSlide</div>
+            <div class="author">by dph</div>
+        </div>
+        <div class="settings-section">
+            <div class="button-bar">
+                <button onclick="fringescheme()">Fringe</button>
+                <button onclick="oldscheme()">Old Scheme</button>
+            </div>
+            <div class="settings-controls">
+                <div class="settings-row">
+                    <input type="checkbox" id="borderToggle" checked onchange="onTriangleBorderToggle(this)">
+                    <label for="borderToggle">Show triangle borders</label>
+                </div>
+                <div class="settings-row">
+                    <label for="fontScaleSlider">Triangle font size</label>
+                    <input type="range" id="fontScaleSlider" min="0.5" max="1.5" step="0.05" value="1.0"
+                        onchange="onFontScaleChange(this)">
+                </div>
+                <div class="settings-row">
+                    <label for="bgColorPicker">Background</label>
+                    <input type="color" id="bgColorPicker" value="#23252a" onchange="onBackgroundColorChange(this)">
+                </div>
+            </div>
+        </div>
+        <div class="solves-section">
+            <h3>Solves Log</h3>
+            <div id="averagesLog"></div>
+            <div id="solvesLog"></div>
+        </div>
+    </div>
+    <div class="puzzle-center-abs">
         <div id="cube"><canvas width="800" height="800" id="c"></canvas></div>
-        <span id="solveTime"></span>
-        <br>
+    </div>
+    <div class="timer-overlay">
         <span id="solvingTime"></span>
+    </div>
 </body>
 
 </html>
